@@ -69,7 +69,7 @@ io.sockets.on('connection', function (socket) {
   socket.emit('log', 'connection');
   socket.on('message', function(message) {
   	workers.sendMessageToWorkers(function(worker) {
-		var token = '184ffe6388374c4d99084d89e141908d9d0b8508f38c3fadaa',
+		var token = '184ffe6388374c4d99084d89e141908d9d0b8508f38c3fadaa766549289ebaccffecf18542caa10cc0af1ac4',
 			path = '/1.0/sessions?action=create&token=' + token + '&msg=' + message + '&number=' + worker.workerId;
 			message = encodeURI(message);
 
