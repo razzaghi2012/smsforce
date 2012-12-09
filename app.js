@@ -24,16 +24,17 @@ app.get('/', function (req, res) {
 
 app.post('/tropo/', function(req, res) {
 	var tropo = new tropowebapi.TropoWebAPI();
-	var message = req.body.session.initialText;
 	
 	if(!req.body.session.from) {
-		io.sockets.emit('log', 'OUTBOUND: ' + message);
-		tropo.say(message);
+		io.sockets.emit('log', 'OUTBOUND: ' + session.session.parameters.msg);
+        tropo.call(session.session.parameters.number, null, null, null, null, null, "SMS", null, null, null);
+		tropo.say(session.session.parameters.msg);
 		res.send(tropowebapi.TropoJSON(tropo));
 		return;
 	}
 
 	var workerId = req.body.session.from.id;
+	var message = req.body.session.initialText;
 	
 	if(message.toLowerCase() == 'unregister') {
 		workers.removeWorker(workerId);
