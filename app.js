@@ -18,17 +18,17 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-app.get('/tropo/voice.json', function(req, res) {
+app.post('/tropo/voice.json', function(req, res) {
 	io.sockets.emit('log', req.body);
 	var tropo = new tropowebapi.TropoWebAPI();
-	tropo.say("Hello World! voice");
+	tropo.say("voice");
     res.send(tropowebapi.TropoJSON(tropo));
 });
 
-app.get('/tropo/text.json', function(req, res) {
+app.post('/tropo/text.json', function(req, res) {
 	io.sockets.emit('log', req.body);
 	var tropo = new tropowebapi.TropoWebAPI();
-	tropo.say("Hello World! text");
+	tropo.say("text");
     res.send(tropowebapi.TropoJSON(tropo));
 });
 
