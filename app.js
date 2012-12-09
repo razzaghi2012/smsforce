@@ -20,10 +20,20 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
+var senders = {};
+
 app.post('/tropo/', function(req, res) {
 	var sender = req.body.session.from.id;
 	var message = req.body.session.initialText;
 	var tropo = new tropowebapi.TropoWebAPI();
+
+	if(senders[sender]) {
+		tropo.say('You are already registered.');
+	} else {
+		senders[sender] = { rating: null, skills: '' };
+		tropo.say('Thank you for registering.');
+	}
+
 	tropo.say("Thank you for sending me a message (" + sender + ")! " + message);
     res.send(tropowebapi.TropoJSON(tropo));
 });
