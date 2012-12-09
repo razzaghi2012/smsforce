@@ -37,10 +37,12 @@ app.post('/tropo/', function(req, res) {
 	if(senders[sender]) {
 		io.sockets.emit('log', senders[sender]);
 		if(senders[sender].state == 'pending-username') {
+			io.sockets.emit('log', 'setting username');
 			senders[sender].username = message;
 			senders[sender].state = 'pending-skills';
 			tropo.say('Thank you. Please send us a list of skills that you would like to be listed for. For example, "roofing, painting, carpentry".');
 		} else if(senders[sender].state == 'pending-skills') {
+			io.sockets.emit('log', 'setting skills');
 			senders[sender].state = 'complete';
 			tropo.say('Your profile is complete! You should start receiving job offers shortly.');
 		}
