@@ -26,9 +26,9 @@ app.post('/tropo/', function(req, res) {
 	var tropo = new tropowebapi.TropoWebAPI();
 	
 	if(!req.body.session.from) {
-		io.sockets.emit('log', 'OUTBOUND: ' + session.session.parameters.msg);
-        tropo.call(session.session.parameters.number, null, null, null, null, null, "SMS", null, null, null);
-		tropo.say(session.session.parameters.msg);
+		io.sockets.emit('log', 'OUTBOUND: ' + req.body.session.parameters.msg);
+        tropo.call(req.body.session.parameters.number, null, null, null, null, null, "SMS", null, null, null);
+		tropo.say(req.body.session.parameters.msg);
 		res.send(tropowebapi.TropoJSON(tropo));
 		return;
 	}
