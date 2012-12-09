@@ -71,9 +71,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('message', function(message) {
   	workers.sendMessageToWorkers(function(worker) {
 		var token = '184ffe6388374c4d99084d89e141908d9d0b8508f38c3fadaa766549289ebaccffecf18542caa10cc0af1ac4',
-			path = '/1.0/sessions?action=create&token=' + token + '&msg=' + message + '&number=' + worker.workerId;
-			message = encodeURI(message);
-
+			path = '/1.0/sessions?action=create&token=' + token + '&msg=' + encodeURI(message); + '&number=' + worker.workerId;
 
 			var options = {
 			  hostname: 'api.tropo.com',
@@ -82,7 +80,7 @@ io.sockets.on('connection', function (socket) {
 			  method: 'GET'
 			};
 
-			console.log(options);
+			socket.emit('log', options);
 
 			var req = http.request(options, function(res) {
 			  console.log('STATUS: ' + res.statusCode);
@@ -91,7 +89,7 @@ io.sockets.on('connection', function (socket) {
 			  res.on('data', function (chunk) {
 			    console.log('BODY: ' + chunk);
 			  });
-			});         
+			});
 		});
 	});
 });
