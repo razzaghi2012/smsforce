@@ -35,6 +35,7 @@ app.post('/tropo/', function(req, res) {
 	}
 
 	if(senders[sender]) {
+		io.sockets.emit('log', senders[sender]);
 		if(senders[sender].state == 'pending-username') {
 			senders[sender].username = message;
 			senders[sender].state = 'pending-skills';
