@@ -14,6 +14,8 @@ io.set('transports', [
 ]);
 io.set('log level', 0);
 
+app.use(require('connect').bodyParser());
+
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
