@@ -28,13 +28,19 @@ app.post('/tropo/', function(req, res) {
 	var tropo = new tropowebapi.TropoWebAPI();
 
 	if(senders[sender]) {
-		tropo.say('You are already registered.');
+		if(senders[sender].state == 'pending-username') {
+			senders[sender].username = message;
+			senders[sender].state = 'pending-skills';
+			tropo.say('Thank you. Please send us a list of skills that you would like to be listed for. For example, "roofing, painting, carpentry".');
+		} else if(senders[sender].state == 'pending-skills') {
+			senders[sender].state = 'complete';
+			tropo.say('Your profile is complete! You should start receiving job offers shortly.');
+		}
 	} else {
-		senders[sender] = { rating: null, skills: '' };
-		tropo.say('Thank you for registering.');
+		senders[sender] = { rating: null, skills: '', state: 'pending-username', username: '' };
+		tropo.say('Thank you for registering. Please send us a name that you would like to be known by in the system.');
 	}
 
-	tropo.say("Thank you for sending me a message (" + sender + ")! " + message);
     res.send(tropowebapi.TropoJSON(tropo));
 });
 
