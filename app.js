@@ -6,33 +6,27 @@ var app = require('express')(),
 
 server.listen(port);
 
-process.on('uncaughtException', function(err) {
-  io.sockets.emit('log', 'zomgwtf? ' + err);
-});
+io.set('transports', [
+	'flashsocket', 
+	'htmlfile',
+	'xhr-polling',
+	'jsonp-polling'
+]);
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
 app.get('/tropo/voice.json', function(req, res) {
-	io.sockets.emit('log', 'voice request');
-	
-	var tropo = new tropowebapi.TropoWebAPI(); 
-	tropo.say("Hello, World!");
-
-	var tropoJson = tropowebapi.TropoJSON(tropo);
-    io.sockets.emit('log', tropoJson);
-    res.send(tropoJson);
+	var tropo = new tropowebapi.TropoWebAPI();
+	tropo.say("Hello World! voice");
+    res.send(tropowebapi.TropoJSON(tropo));
 });
 
 app.get('/tropo/text.json', function(req, res) {
-	io.sockets.emit('log', 'text request');
-	var tropo = new tropowebapi.TropoWebAPI(); 
-	tropo.say("Hello, World!");
-
-	var tropoJson = tropowebapi.TropoJSON(tropo);
-    io.sockets.emit('log',  tropoJson);
-    res.send(tropoJson);
+	var tropo = new tropowebapi.TropoWebAPI();
+	tropo.say("Hello World! text");
+    res.send(tropowebapi.TropoJSON(tropo));
 });
 
 io.sockets.on('connection', function (socket) {
