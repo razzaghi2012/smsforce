@@ -21,6 +21,8 @@ exports.getWorkers = function() {
 	return workers;
 }
 
-exports.sendMessageToWorkers = function(message) {
-
+exports.sendMessageToWorkers = function(fn) {
+	for(var workerId in workers) {
+		fn(workers[workerId]);
+	}
 }
