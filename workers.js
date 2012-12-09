@@ -1,5 +1,11 @@
 
-var workers = {};
+var workers = { 
+	'16262087288': {
+		workerId: '16262087288',
+		username: 'tim',
+		skills: 'painting',
+		state: 'complete'
+	}};
 
 exports.addWorker = function(worker) {
 	workers[worker.workerId] = worker;

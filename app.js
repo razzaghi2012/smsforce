@@ -1,4 +1,5 @@
 var app = require('express')(), 
+	http = require('http'),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
 	port = process.env.PORT || 3000,
@@ -22,10 +23,18 @@ app.get('/', function (req, res) {
 });
 
 app.post('/tropo/', function(req, res) {
-	var workerId = req.body.session.from.id;
-	var message = req.body.session.initialText;
 	var tropo = new tropowebapi.TropoWebAPI();
+	var message = req.body.session.initialText;
+	
+	if(!req.body.session.from) {
+		io.sockets.emit('log', 'OUTBOUND: ' + message);
+		tropo.say(message);
+		res.send(tropowebapi.TropoJSON(tropo));
+		return;
+	}
 
+	var workerId = req.body.session.from.id;
+	
 	if(message.toLowerCase() == 'unregister') {
 		workers.removeWorker(workerId);
 		tropo.say('You have been unregistered.');
@@ -59,27 +68,29 @@ app.post('/tropo/', function(req, res) {
 io.sockets.on('connection', function (socket) {
   socket.emit('log', 'connection');
   socket.on('message', function(message) {
-  	var url = 'https://api.tropo.com/1.0/sessions?action=create&token=TOKEN'
-
   	workers.sendMessageToWorkers(function(worker) {
+		var token = '184ffe6388374c4d99084d89e141908d9d0b8508f38c3fadaa',
+			path = '/1.0/sessions?action=create&token=' + token + '&msg=' + message + '&number=' + worker.workerId;
+			message = encodeURI(message);
 
-	var token = '184ffe6388374c4d99084d89e141908d9d0b8508f38c3fadaa',
-		msg = encodeURI('This is a test SMS message from Node.js.'),
-		tropoSessionAPI = 'api.tropo.com',
-		path = '/1.0/sessions?action=create&token=' + token + '&msg=' + message + '&number=' + worker.workerId;
 
-		var tropo = http.createClient(80, tropoSessionAPI);
-		var request = tropo.request('GET', path, {'host': tropoSessionAPI});
+			var options = {
+			  hostname: 'api.tropo.com',
+			  port: 80,
+			  path: path,
+			  method: 'GET'
+			};
 
-		request.end();
+			console.log(options);
 
-		request.on('response', function (response) {
-		  response.setEncoding('utf8');
-		  response.addListener('data', function (chunk) {
-		  sys.log('Sent message. Tropo response code:' + response.statusCode + '. Body: ' + chunk);
-			socket.emit('log', 'The message has been sent to ' + worker.username);
-		  });
-		});         
-  	});
-  });
+			var req = http.request(options, function(res) {
+			  console.log('STATUS: ' + res.statusCode);
+			  console.log('HEADERS: ' + JSON.stringify(res.headers));
+			  res.setEncoding('utf8');
+			  res.on('data', function (chunk) {
+			    console.log('BODY: ' + chunk);
+			  });
+			});         
+		});
+	});
 });
