@@ -19,9 +19,8 @@ app.get('/', function (req, res) {
 });
 
 app.post('/tropo/voice.json', function(req, res) {
-	io.sockets.emit('log', req.body);
 	var tropo = new tropowebapi.TropoWebAPI();
-	tropo.say("voice");
+	tropo.say("The voice protocol is not supported at this time.");
     res.send(tropowebapi.TropoJSON(tropo));
 });
 
