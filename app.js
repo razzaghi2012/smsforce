@@ -11,6 +11,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/tropo/voice.json', function(req, res) {
+	io.sockets.emit('log', '/tropo/voice.json');
 	var tropo = new tropowebapi.TropoWebAPI(); 
 	tropo.say("Hello, World!");
 
@@ -19,6 +20,7 @@ app.get('/tropo/voice.json', function(req, res) {
 });
 
 app.get('/tropo/text.json', function(req, res) {
+	io.sockets.emit('log', '/tropo/text.json');
 	var tropo = new tropowebapi.TropoWebAPI(); 
 	tropo.say("Hello, World!");
 
@@ -27,8 +29,5 @@ app.get('/tropo/text.json', function(req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+  socket.emit('log', 'connection');
 });
