@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-app.post('/tropo', function(req, res) {
+app.post('/tropo/', function(req, res) {
 	io.sockets.emit('log', 'WORKK!!!!' + req.body);
 	var tropo = new tropowebapi.TropoWebAPI();
 	tropo.say("text");
