@@ -47,7 +47,7 @@ app.post('/tropo/', function(req, res) {
 			tropo.say('Your profile is complete! You should start receiving job offers shortly.');
 		}
 	} else {
-		worker = { rating: null, skills: '', state: 'pending-username', username: '' };
+		worker = { workerId: workerId, rating: null, skills: '', state: 'pending-username', username: '' };
 		workers.addWorker(worker);
 
 		tropo.say('Thank you for registering. Please send us a name that you would like to be known by in the system.');
