@@ -1,26 +1,26 @@
 
 var workers = {};
 
-export.addWorker = function(worker) {
+exports.addWorker = function(worker) {
 	workers[worker.workerId] = worker;
 }
 
-export.removeWorker = function(workerId) {
+exports.removeWorker = function(workerId) {
 	delete workers[workerId];
 }
 
-export.getWorker = function(workerId) {
+exports.getWorker = function(workerId) {
 	return workers[workerId];
 }
 
-export.updateWorker = function(workerId, worker) {
+exports.updateWorker = function(workerId, worker) {
 	workers[workerId] = worker;
 }
 
-export.getWorkers = function() {
+exports.getWorkers = function() {
 	return workers;
 }
 
-export.sendMessageToWorkers = function(message) {
-		
+exports.sendMessageToWorkers = function(message) {
+
 }

@@ -3,7 +3,7 @@ var app = require('express')(),
 	io = require('socket.io').listen(server),
 	port = process.env.PORT || 3000,
 	tropowebapi = require('tropo-webapi'),
-	workers = require(./workers);
+	workers = require('./workers');
 
 server.listen(port);
 
