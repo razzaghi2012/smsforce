@@ -19,12 +19,14 @@ app.get('/', function (req, res) {
 });
 
 app.get('/tropo/voice.json', function(req, res) {
+	io.sockets.emit('voice');
 	var tropo = new tropowebapi.TropoWebAPI();
 	tropo.say("Hello World! voice");
     res.send(tropowebapi.TropoJSON(tropo));
 });
 
 app.get('/tropo/text.json', function(req, res) {
+	io.sockets.emit('text');
 	var tropo = new tropowebapi.TropoWebAPI();
 	tropo.say("Hello World! text");
     res.send(tropowebapi.TropoJSON(tropo));
