@@ -27,6 +27,13 @@ app.post('/tropo/', function(req, res) {
 	var message = req.body.session.initialText;
 	var tropo = new tropowebapi.TropoWebAPI();
 
+	if(message.toLowerCase() == 'unregister') {
+		delete senders[sender];
+		tropo.say('You have been unregistered.');
+		res.send(tropowebapi.TropoJSON(tropo));
+		return;
+	}
+
 	if(senders[sender]) {
 		if(senders[sender].state == 'pending-username') {
 			senders[sender].username = message;
