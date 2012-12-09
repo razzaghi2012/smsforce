@@ -21,9 +21,10 @@ app.get('/', function (req, res) {
 });
 
 app.post('/tropo/', function(req, res) {
-	io.sockets.emit('log', req.body);
+	var sender = req.body.session.from.id;
+	var message = req.body.session.initialText;
 	var tropo = new tropowebapi.TropoWebAPI();
-	tropo.say("text");
+	tropo.say("Thank you for sending me a message (" + sender + ")! " + message);
     res.send(tropowebapi.TropoJSON(tropo));
 });
 
