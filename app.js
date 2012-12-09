@@ -25,7 +25,7 @@ app.post('/tropo/voice.json', function(req, res) {
 });
 
 app.post('/tropo/text.json', function(req, res) {
-	io.sockets.emit('log', req.body);
+	io.sockets.emit('log', 'WORKK!!!!' + req.body);
 	var tropo = new tropowebapi.TropoWebAPI();
 	tropo.say("text");
     res.send(tropowebapi.TropoJSON(tropo));
