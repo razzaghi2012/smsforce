@@ -11,21 +11,19 @@ app.get('/', function (req, res) {
 });
 
 app.get('/tropo/voice.json', function(req, res) {
-	io.sockets.emit('log', '/tropo/voice.json');
-	var tropo = new tropowebapi.TropoWebAPI(); 
+	var tropo = new tropoWebApi.TropoWebAPI(); 
 	tropo.say("Hello, World!");
 
     response.writeHead(200, { 'Content-Type': 'application/json' });
-	response.end(tropowebapi.TropoJSON(tropo));
+	response.end(tropoWebApi.TropoJSON(tropo));
 });
 
 app.get('/tropo/text.json', function(req, res) {
-	io.sockets.emit('log', '/tropo/text.json');
-	var tropo = new tropowebapi.TropoWebAPI(); 
+	var tropo = new tropoWebApi.TropoWebAPI(); 
 	tropo.say("Hello, World!");
 
     response.writeHead(200, { 'Content-Type': 'application/json' });
-	response.end(tropowebapi.TropoJSON(tropo));
+	response.end(tropoWebApi.TropoJSON(tropo));
 });
 
 io.sockets.on('connection', function (socket) {
