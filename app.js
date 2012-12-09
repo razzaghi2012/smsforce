@@ -12,6 +12,7 @@ io.set('transports', [
 	'xhr-polling',
 	'jsonp-polling'
 ]);
+io.set('log level', 0);
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
