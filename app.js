@@ -58,4 +58,7 @@ app.post('/tropo/', function(req, res) {
 
 io.sockets.on('connection', function (socket) {
   socket.emit('log', 'connection');
+  socket.on('message', function(message) {
+  	socket.emit('log', message);
+  });
 });
